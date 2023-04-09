@@ -1,57 +1,46 @@
-const computerChoiceDisplay = document.getElementById("computer-choice");
-const userChoiceDisplay = document.getElementById("user-choice");
-const resultDisplay = document.getElementById("result");
-const possibleChoices = document.querySelectorAll("button");
-let userChoice;
-let computerChoice;
-let result;
-
-//function for possible choices of a user and a computer
-possibleChoices.forEach((possibleChoice) => possibleChoice.addEventListener('click', (e) => {
-    userChoice = e.target.id;
-    userChoiceDisplay.innerHTML = userChoice;
-    getComputerChoice();
-    getResult();
-}));
-
-//function for a random computer choice
-function getComputerChoice() {
-    const randomNumber = Math.floor(Math.random() * 3) + 1;
-    if (randomNumber === 1) {
-        computerChoice = 'rock';
-    }
-    if (randomNumber === 2) {
-        computerChoice = 'paper';
-    }
-    if (randomNumber === 3) {
-        computerChoice = 'scissors';
-    }
-    computerChoiceDisplay.innerHTML = computerChoice;
+const userChoiceDisplay=document.createElement('h1')
+const computerChoiceDisplay=document.createElement('h1')
+const resultDisplay=document.createElement('h1')
+const gameGrid=document.getElementById('game')
+gameGrid.append(userChoiceDisplay, computerChoiceDisplay, resultDisplay)
+const choices=['rock', 'paper', 'scissors']
+let userChoice
+let computerChoice
+const handleClick=(e) =>{
+  userChoice=e.target.id
+  userChoiceDisplay.innerHTML='User choice: ' + userChoice
+  generateComputerChoice()
+  getResult()
+  }
+for(let i=0;i<choices.length;i++){
+  const button=document.createElement('button')
+  button.id=choices[i]
+  button.innerHTML=choices[i]
+  button.addEventListener('click', handleClick)
+  gameGrid.appendChild(button)
 }
+    const generateComputerChoice=() => {
+    const randomChoice =choices[Math.floor(Math.random() * choices.length)] 
+    computerChoice=randomChoice
+    computerChoiceDisplay.innerHTML='Computer choice: ' + computerChoice
+  }
+  const getResult=() => {
+  switch (userChoice + computerChoice) {
+    case 'rockscissors':
+    case 'paperrock':
+    case 'scissorspaper':
+    resultDisplay.innerHTML="You win!" 
+      break
+    case 'rockpaper':
+    case 'paperscissors':
+    case 'scissorsrock':
+    resultDisplay.innerHTML="You lost!"
+      break
+    case 'rockrock':
+    case 'paperpaper':
+    case 'scissorsscissors':
+    resultDisplay.innerHTML="It's a tie!"
+      break
 
-//function for a result display
-function getResult() {
-    if (userChoice === computerChoice) {
-        result = 'Its a tie!';
-    }
-    if (computerChoice === 'rock' && userChoice === 'paper') {
-        result = 'You win';
-    }
-    if (computerChoice === 'rock' && userChoice === 'scissors') {
-        result = 'You lost';
-    }
-    if (computerChoice === 'paper' && userChoice === 'rock') {
-        result = 'You lost';
-    }
-    if (computerChoice === 'paper' && userChoice === 'scissors') {
-        result = 'You win';
-    }
-    if (computerChoice === 'scissors' && userChoice === 'rock') {
-        result = 'You win';
-    }
-    if (computerChoice === 'scissors' && userChoice === 'paper') {
-        result = 'You lost';
-    }
-    resultDisplay.innerHTML = result;
-    console.log(result);
-}
+  }
+  }
